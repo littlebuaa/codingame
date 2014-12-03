@@ -1,0 +1,83 @@
+import sys, math
+
+# Auto-generated code below aims at helping you parse
+# the standard input according to the problem statement.
+
+# W: number of columns.
+# H: number of rows.
+class room:
+    
+    def __init__(self,type):
+        self.type = type;
+        if(type==0):
+            self.route={}
+        elif(type==1):
+            self.route ={"TOP":"DOWN","LEFT":"DOWN","RIGHT":"DOWN"} 
+        elif(type==2):
+            self.route = {"RIGHT":"LEFT","LEFT":"RIGHT"}
+        elif(type==3):
+            self.route = {"TOP":"DOWN"}
+        elif(type==4):
+            self.route = {"TOP":"LEFT","RIGHT":"DOWN","LEFT":"NO"}
+        elif(type==5):
+            self.route = {"TOP":"RIGHT","LEFT":"DOWN","RIGHT":"NO"}
+        elif(type==6):
+            self.route = {"RIGHT":"LEFT","LEFT":"RIGHT","TOP":"NO"}
+        elif(type==7):
+            self.route = {"RIGHT":"DOWN","TOP":"DOWN"}
+        elif(type==8):
+            self.route = {"RIGHT":"DOWN","LEFT":"DOWN"}
+        elif(type==9):
+            self.route = {"LEFT":"DOWN","TOP":"DOWN"}
+        elif(type==10):
+            self.route = {"LEFT":"NO","TOP":"LEFT"}
+        elif(type==11):
+            self.route = {"RIGHT":"NO","TOP":"RIGHT"}
+        elif(type==12):
+            self.route = {"RIGHT":"DOWN"}
+        else:
+            self.route = {"LEFT":"DOWN"}
+
+
+grid = []
+
+W, H = [int(i) for i in raw_input().split()]
+print >>sys.stderr,W,H
+
+for i in xrange(H):
+    LINE = raw_input() # represents a line in the grid and contains W integers. Each integer represents one room of a given type
+    print >>sys.stderr,LINE
+    row =[]
+    for j in LINE.split():
+        temp = int(j)
+        r = room(temp)
+        row.append(r)
+    grid.append(row)
+    
+EX = int(raw_input()) # the coordinate along the X axis of the exit (not useful for this first mission, but must be read).
+
+# game loop
+while 1:
+    XI, YI, POS = raw_input().split()
+    XI = int(XI)
+    YI = int(YI)
+    
+    print >>sys.stderr,XI,YI,POS
+        
+    ici = grid[YI][XI]
+    print >>sys.stderr,ici.type,ici.route
+    
+    if(ici.route.has_key(POS)):
+        if(ici.route[POS]=="LEFT"):
+            print XI-1,YI
+        if(ici.route[POS]=="RIGHT"):
+            print XI+1,YI
+        if(ici.route[POS]=="DOWN"):
+            print XI,YI+1
+    else:
+        print "OK"
+    
+    # Write an action using print
+    # To debug: print >> sys.stderr, "Debug messages..."
+    
+    #print "0 0" # One line containing the X Y coordinates of the room in which you believe Indy will be on the next turn.
